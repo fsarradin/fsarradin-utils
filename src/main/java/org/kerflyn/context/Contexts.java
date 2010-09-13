@@ -6,10 +6,23 @@ public class Contexts {
 
     private static class NullContextImpl implements Context {
 	public Context getParent() { return this; }
-	public void register(String name, Object o) {}
-	public Object get(String name) { return null; }
-	public <T> T get(String name, Class<T> contract) { return null; }
-	public <T> T get(Class<T> contract) { return null; }
+
+	public void register(String name, Object o) {
+	    throw new UnsupportedOperationException();
+	}
+
+	public Object get(String name) {
+	    throw new UnsupportedOperationException();
+	}
+
+	public <T> T get(String name, Class<T> contract) {
+	    throw new UnsupportedOperationException();
+	}
+
+	public <T> T get(Class<T> contract) {
+	    throw new UnsupportedOperationException();
+	}
+
     }
 
 }
