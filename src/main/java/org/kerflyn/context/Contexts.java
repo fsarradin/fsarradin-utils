@@ -13,6 +13,10 @@ public class Contexts {
 	return new ContextImpl(NULL);
     }
 
+    public static Context create(Context parent) {
+	return new ContextImpl(parent);
+    }
+
     private static class ContextImpl implements Context {
 	
 	private final Context parent;
@@ -30,11 +34,17 @@ public class Contexts {
 	}
 
 	public Object get(String name) {
-	    return objects.get(name);
+	    if (objects.containsKey(name)) {
+		return objects.get(name);
+	    }
+	    return parent.get(name);
 	}
 
 	public <T> T get(String name, Class<T> contract) {
-	    return contract.cast(objects.get(name));
+	    if (objects.containsKey(name)) {
+		return contract.cast(objects.get(name));
+	    }
+	    return parent.get(name, contract);
 	}
 
 	public <T> T get(Class<T> contract) {
@@ -43,7 +53,7 @@ public class Contexts {
 		    return (T) o;
 		}
 	    }
-	    throw new NoSuchElementException();
+	    return parent.get(contract);
 	}
 	
     }
