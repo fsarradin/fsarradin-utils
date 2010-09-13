@@ -1,5 +1,7 @@
 package org.kerflyn.context;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -29,7 +31,7 @@ public class WhenNullContext {
 
     @Test
 	public void thenComplainOnGettingObject() {
-	thrown.expect(UnsupportedOperationException.class);
+	thrown.expect(NoSuchElementException.class);
 
 	Context context = Contexts.NULL;
 	context.get(Object.class);

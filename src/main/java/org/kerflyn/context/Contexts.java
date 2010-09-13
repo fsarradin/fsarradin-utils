@@ -56,15 +56,15 @@ public class Contexts {
 	}
 
 	public Object get(String name) {
-	    throw new UnsupportedOperationException();
+	    throw new NoSuchElementException();
 	}
 
 	public <T> T get(String name, Class<T> contract) {
-	    throw new UnsupportedOperationException();
+	    throw new NoSuchElementException();
 	}
 
 	public <T> T get(Class<T> contract) {
-	    throw new UnsupportedOperationException();
+	    throw new NoSuchElementException();
 	}
 
     }
