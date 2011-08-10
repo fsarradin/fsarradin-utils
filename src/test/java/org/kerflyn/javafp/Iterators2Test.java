@@ -3,14 +3,16 @@ package org.kerflyn.javafp;
 import com.google.common.base.Function;
 import org.junit.Test;
 
-import static com.google.common.collect.Iterables.limit;
-import static com.google.common.collect.Iterables.transform;
+import java.util.Iterator;
+
+import static com.google.common.collect.Iterators.limit;
+import static com.google.common.collect.Iterators.transform;
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.kerflyn.javafp.Iterables2.allIntegersFrom;
-import static org.kerflyn.javafp.Iterables2.foldLeft;
+import static org.kerflyn.javafp.Iterators2.allIntegersFrom;
+import static org.kerflyn.javafp.Iterators2.foldLeft;
 
-public class Iterables2Test {
+public class Iterators2Test {
 
     @Test(timeout = 5000)
     public void shouldTransformInfiniteStreamLazily() {
@@ -18,7 +20,7 @@ public class Iterables2Test {
             @Override public Integer apply(Integer value) { return value * value; }
         };
 
-        Iterable<Integer> integers = transform(allIntegersFrom(1), squareFunction);
+        Iterator<Integer> integers = transform(allIntegersFrom(1), squareFunction);
         assertThat(limit(integers, 5)).containsOnly(1, 4, 9, 16, 25);
     }
 
@@ -31,13 +33,13 @@ public class Iterables2Test {
             }
         };
 
-        Iterable<Integer> integers = limit(allIntegersFrom(1), 5);
+        Iterator<Integer> integers = limit(allIntegersFrom(1), 5);
         int result = foldLeft(integers, 1, multiplyAggregator);
         assertThat(result).isEqualTo(120);
     }
 
     @Test
-    public void shouldConstructIterable() {
+    public void shouldConstructIterator() {
         Iterable<Function<Integer, Integer>> functions = asList(
                 new Function<Integer, Integer>() {
                     @Override public Integer apply(Integer value) {
@@ -56,7 +58,7 @@ public class Iterables2Test {
                 }
         );
 
-        Iterable<Integer> ints = Iterables2.construct(functions, 5);
+        Iterator<Integer> ints = Iterators2.construct(functions.iterator(), 5);
 
         assertThat(ints).containsOnly(4, 5, 6);
     }

@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.kerflyn.javafp.Iterators2.reduce;
+import static org.kerflyn.javafp.Iterators2.foldLeft;
 import static org.kerflyn.javafp.Tuple2.Tuple2;
 
 public class TestFpOps {
@@ -40,7 +40,7 @@ public class TestFpOps {
         private static List<Person> getPersonsWithMaxCountryName_fp(List<Person> persons) {
             List<Person> emptyList = Lists.newArrayList();
             Tuple2<List<Person>, Integer> init = Tuple2(emptyList, 0);
-            return reduce(toPersonAndLength(persons), init, new MaxOf<Person>())._0;
+            return foldLeft(toPersonAndLength(persons), init, new MaxOf<Person>())._0;
         }
 
         private static List<Person> getPersonsWithMaxCountryName_ip(List<Person> persons) {
