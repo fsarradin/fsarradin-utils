@@ -1,13 +1,13 @@
-package javafp;
+package org.kerflyn.javafp;
 
 import com.google.common.base.Function;
 import org.junit.Test;
 
 import static com.google.common.collect.Iterables.limit;
 import static com.google.common.collect.Iterables.transform;
-import static javafp.Iterables2.allIntegersFrom;
-import static javafp.Iterables2.reduce;
 import static org.fest.assertions.Assertions.assertThat;
+import static org.kerflyn.javafp.Iterables2.allIntegersFrom;
+import static org.kerflyn.javafp.Iterables2.reduce;
 
 public class Iterables2Test {
 

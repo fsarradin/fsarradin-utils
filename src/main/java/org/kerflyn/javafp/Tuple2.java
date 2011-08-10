@@ -1,4 +1,4 @@
-package javafp;
+package org.kerflyn.javafp;
 
 public class Tuple2<T0, T1> {
     public T0 _0;

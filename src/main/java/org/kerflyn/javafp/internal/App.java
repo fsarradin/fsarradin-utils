@@ -1,4 +1,4 @@
-package javafp;
+package org.kerflyn.javafp.internal;
 
 import com.google.common.base.Function;
 
@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static javafp.FpFunctions.add;
+import static org.kerflyn.javafp.internal.FpFunctions.add;
 
 /**
  * Hello world!
@@ -25,4 +25,5 @@ public class App
 
         System.out.println(value);
     }
+
 }

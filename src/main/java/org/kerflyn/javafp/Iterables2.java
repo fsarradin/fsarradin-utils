@@ -1,4 +1,4 @@
-package javafp;
+package org.kerflyn.javafp;
 
 import java.util.Iterator;
 
