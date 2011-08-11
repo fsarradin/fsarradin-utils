@@ -1,4 +1,6 @@
 Here are some utilities of my own...
 
-fsarradin-
+Projects :
 
+* context: runtime context management
+* javafp: functional programming for Java (it's an extension of Guava)
