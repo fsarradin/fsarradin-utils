@@ -1,6 +1,7 @@
 package org.kerflyn.javafp;
 
 import com.google.common.base.Function;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -61,6 +62,11 @@ public class Iterators2Test {
         Iterator<Integer> ints = Iterators2.construct(functions.iterator(), 5);
 
         assertThat(ints).containsOnly(4, 5, 6);
+    }
+
+    @Test @Ignore
+    public void shouldSumAnIteratorOfIntegers() {
+
     }
 
 }
