@@ -1,9 +1,15 @@
 package org.kerflyn.javafp;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
 
+import javax.swing.border.EtchedBorder;
 import java.util.Iterator;
+
+import static com.google.common.collect.Iterators.concat;
+import static com.google.common.collect.Iterators.emptyIterator;
+import static com.google.common.collect.Iterators.singletonIterator;
 
 public class Iterators2 {
 
@@ -64,5 +70,32 @@ public class Iterators2 {
                 return Tuple3.Tuple3(iterator0.next(), iterator1.next(), iterator2.next());
             }
         };
+    }
+
+    public static <T> Iterator<T> limitWhen(final Iterator<T> iterator, final Predicate<T> predicate) {
+        return new AbstractIterator<T>() {
+            @Override
+            protected T computeNext() {
+                if (!iterator.hasNext()) {
+                    return endOfData();
+                }
+                T value = iterator.next();
+                if (predicate.apply(value)) {
+                    return endOfData();
+                }
+                return value;
+            }
+        };
+    }
+
+    public static <T> Iterator<T> skipWhile(final Iterator<T> iterator, final Predicate<T> predicate) {
+        T value = iterator.next();
+        while (iterator.hasNext() && predicate.apply(value)) {
+            value = iterator.next();
+        }
+        if (predicate.apply(value)) {
+            return emptyIterator();
+        }
+        return concat(singletonIterator(value), iterator);
     }
 }

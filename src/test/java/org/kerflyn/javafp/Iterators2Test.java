@@ -1,6 +1,7 @@
 package org.kerflyn.javafp;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import org.junit.Test;
 
@@ -89,6 +90,34 @@ public class Iterators2Test {
                 Iterators2.allIntegersFrom(1),
                 Iterators.<Integer>cycle(42));
         assertThat(result).containsOnly(Tuple3(2, 1, 42), Tuple3(4, 2, 42), Tuple3(6, 3, 42));
+    }
+
+    @Test
+    public void shouldLimitOnPredicate() {
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1);
+
+        Iterator<Integer> result = Iterators2.limitWhen(integers.iterator(), new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer input) {
+                return input > 4;
+            }
+        });
+
+        assertThat(result).containsOnly(1, 2, 3, 4);
+    }
+
+    @Test
+    public void shouldSkipOnPredicate() {
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1);
+
+        Iterator<Integer> result = Iterators2.skipWhile(integers.iterator(), new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer input) {
+                return input <= 4;
+            }
+        });
+
+        assertThat(result).containsOnly(5, 6, 5, 4, 3, 2, 1);
     }
 
 }
