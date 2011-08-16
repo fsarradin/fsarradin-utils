@@ -38,4 +38,31 @@ public class Iterators2 {
             }
         };
     }
+
+    public static <T0, T1> Iterator<Tuple2<T0, T1>> zip(final Iterator<T0> iterator0,
+                                                        final Iterator<T1> iterator1) {
+        return new AbstractIterator<Tuple2<T0, T1>>() {
+            @Override
+            protected Tuple2<T0, T1> computeNext() {
+                if (!(iterator0.hasNext() && iterator1.hasNext())) {
+                    return endOfData();
+                }
+                return Tuple2.Tuple2(iterator0.next(), iterator1.next());
+            }
+        };
+    }
+
+    public static <T0, T1, T2> Iterator<Tuple3<T0, T1, T2>> zip(final Iterator<T0> iterator0,
+                                                                final Iterator<T1> iterator1,
+                                                                final Iterator<T2> iterator2) {
+        return new AbstractIterator<Tuple3<T0, T1, T2>>() {
+            @Override
+            protected Tuple3<T0, T1, T2> computeNext() {
+                if (!(iterator0.hasNext() && iterator1.hasNext() && iterator2.hasNext())) {
+                    return endOfData();
+                }
+                return Tuple3.Tuple3(iterator0.next(), iterator1.next(), iterator2.next());
+            }
+        };
+    }
 }

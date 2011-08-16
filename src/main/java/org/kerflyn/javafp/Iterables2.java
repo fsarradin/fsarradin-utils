@@ -32,4 +32,24 @@ public class Iterables2 {
         };
     }
 
+    public static <T0, T1> Iterable<Tuple2<T0, T1>> zip(final Iterable<T0> iterable0,
+                                                        final Iterable<T1> iterable1) {
+        return new Iterable<Tuple2<T0, T1>>() {
+            @Override
+            public Iterator<Tuple2<T0, T1>> iterator() {
+                return Iterators2.zip(iterable0.iterator(), iterable1.iterator());
+            }
+        };
+    }
+
+    public static <T0, T1, T2> Iterable<Tuple3<T0, T1, T2>> zip(final Iterable<T0> iterable0,
+                                                                final Iterable<T1> iterable1,
+                                                                final Iterable<T2> iterable2) {
+        return new Iterable<Tuple3<T0, T1, T2>>() {
+            @Override
+            public Iterator<Tuple3<T0, T1, T2>> iterator() {
+                return Iterators2.zip(iterable0.iterator(), iterable1.iterator(), iterable2.iterator());
+            }
+        };
+    }
 }
