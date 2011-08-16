@@ -25,30 +25,34 @@ import static org.kerflyn.javafp.Iterables2.*;
  */
 public class NpvTest {
 
+    public final Function<Tuple3<Double,Double,Integer>,Double> DISCOUNT = new Function<Tuple3<Double, Double, Integer>, Double>() {
+        @Override
+        public Double apply(Tuple3<Double, Double, Integer> input) {
+            return input._0 / Math.pow(1. + input._1, input._2);
+        }
+    };
+
+    public final Aggregator<Double, Double> SUM_OF_DOUBLES = new Aggregator<Double, Double>() {
+        @Override
+        public Double apply(Double arg1, Double arg2) {
+            return arg1 + arg2;
+        }
+    };
+
+    public double npv(List<Double> cashflows, double rate) {
+        Iterable<Tuple3<Double, Double, Integer>> zippedParams = zip(cashflows, cycle(rate), allIntegersFrom(1));
+        Iterable<Double> discountedFlows = transform(zippedParams, DISCOUNT);
+        return foldLeft(discountedFlows, 0., SUM_OF_DOUBLES);
+    }
+
     @Test
     public void shouldGetNetPresentValue() {
-        Function<Tuple3<Double, Double, Integer>, Double> discount
-            = new Function<Tuple3<Double, Double, Integer>, Double>() {
-                @Override
-                public Double apply(Tuple3<Double, Double, Integer> input) {
-                    return input._0 / Math.pow(1. + input._1, input._2);
-                }
-            };
-
-        Aggregator<Double, Double> sum = new Aggregator<Double, Double>() {
-            @Override
-            public Double apply(Double arg1, Double arg2) {
-                return arg1 + arg2;
-            }
-        };
-
         List<Double> cashflows = Arrays.asList(100000., -100., -100., -1000.);
         double rate = .04;
 
-        Iterable<Double> discountedFlows = transform(zip(cashflows, cycle(rate), allIntegersFrom(1)), discount);
-        Double npv = foldLeft(discountedFlows, 0., sum);
+        Double result = npv(cashflows, rate);
 
-        assertThat(npv).isEqualTo(95117.68, delta(1e-2));
+        assertThat(result).isEqualTo(95117.68, delta(1e-2));
     }
 
 
