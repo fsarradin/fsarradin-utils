@@ -13,8 +13,7 @@ import static com.google.common.collect.Iterators.limit;
 import static com.google.common.collect.Iterators.transform;
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.kerflyn.javafp.Iterators2.allIntegersFrom;
-import static org.kerflyn.javafp.Iterators2.foldLeft;
+import static org.kerflyn.javafp.Iterators2.*;
 import static org.kerflyn.javafp.Tuple2.Tuple2;
 import static org.kerflyn.javafp.Tuple3.Tuple3;
 
@@ -45,6 +44,34 @@ public class Iterators2Test {
         Iterator<Integer> integers = limit(allIntegersFrom(1), 5);
         int result = foldLeft(integers, 1, multiplyAggregator);
         assertThat(result).isEqualTo(120);
+    }
+
+    @Test
+    public void shouldScanLeftAStream() {
+        Aggregator<Integer, Integer> multiplyAggregator = new Aggregator<Integer, Integer>() {
+            @Override
+            public Integer apply(Integer x, Integer y) {
+                return x * y;
+            }
+        };
+
+        Iterator<Integer> integers = limit(allIntegersFrom(1), 5);
+        Iterator<Integer> result = Iterators2.scanLeft(integers, 1, multiplyAggregator);
+        assertThat(result).containsOnly(1, 1, 2, 6, 24, 120);
+    }
+
+    @Test
+    public void shouldIterate() {
+        Function<Integer, Integer> addOne = new Function<Integer, Integer>() {
+            @Override
+            public Integer apply(Integer value) {
+                return value + 1;
+            }
+        };
+
+        Iterator<Integer> result = limit(iterate(addOne, 0), 10);
+
+        assertThat(result).containsOnly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
     }
 
     @Test

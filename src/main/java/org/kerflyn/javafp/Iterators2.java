@@ -4,12 +4,9 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
 
-import javax.swing.border.EtchedBorder;
 import java.util.Iterator;
 
-import static com.google.common.collect.Iterators.concat;
-import static com.google.common.collect.Iterators.emptyIterator;
-import static com.google.common.collect.Iterators.singletonIterator;
+import static com.google.common.collect.Iterators.*;
 
 public class Iterators2 {
 
@@ -30,6 +27,21 @@ public class Iterators2 {
         return new AbstractIterator<Integer>() {
             public int value = start;
             @Override protected Integer computeNext() { return value++; }
+        };
+    }
+
+    public static <T, R> Iterator<R> scanLeft(final Iterator<T> iterator, final R init, final Aggregator<R, T> aggregator) {
+        return new AbstractIterator<R>() {
+            public R accumulator = init;
+
+            @Override
+            protected R computeNext() {
+                if (!iterator.hasNext()) {
+                    return endOfData();
+                }
+                accumulator = aggregator.apply(accumulator, iterator.next());
+                return accumulator;
+            }
         };
     }
 
@@ -97,5 +109,18 @@ public class Iterators2 {
             return emptyIterator();
         }
         return concat(singletonIterator(value), iterator);
+    }
+
+    public static <T> Iterator<T> iterate(final Function<T, T> function, final T init) {
+        return new AbstractIterator<T>() {
+            public T current = init;
+
+            @Override
+            protected T computeNext() {
+                T result = current;
+                current = function.apply(current);
+                return result;
+            }
+        };
     }
 }
