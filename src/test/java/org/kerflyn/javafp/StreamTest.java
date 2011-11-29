@@ -62,11 +62,7 @@ public class StreamTest {
 
     @Test
     public void shouldReturnFibonacciSeries2() {
-        Stream<Integer> result = fibs2();
-        Iterator<Integer> iterator = result.iterator();
-
-        assertThat(iterator.next()).isEqualTo(1);
-        assertThat(iterator.next()).isEqualTo(1);
+        assertThat(Iterables.limit(fibs2(), 8)).containsOnly(1, 1, 2, 3, 5, 8, 13, 21);
     }
 
 }
