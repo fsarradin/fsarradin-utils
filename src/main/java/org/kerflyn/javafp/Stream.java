@@ -22,6 +22,10 @@ public class Stream<T> implements Iterable<T> {
         return supplier.get();
     }
 
+    public boolean isEmpty() {
+        return false;
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new AbstractIterator<T>() {
@@ -29,6 +33,9 @@ public class Stream<T> implements Iterable<T> {
 
             @Override
             protected T computeNext() {
+                if (stream.isEmpty()) {
+                    return endOfData();
+                }
                 T current = stream.head();
                 stream = stream.tail();
                 return current;
