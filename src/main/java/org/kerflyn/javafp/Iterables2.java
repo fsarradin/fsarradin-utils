@@ -1,6 +1,7 @@
 package org.kerflyn.javafp;
 
 import com.google.common.base.Function;
+import com.google.common.collect.AbstractIterator;
 
 import java.util.Iterator;
 
@@ -52,4 +53,14 @@ public class Iterables2 {
             }
         };
     }
+
+    public static <T1, T2, R> Iterable<R> zip(final Iterable<T1> iterable1, final Iterable<T2> iterable2, final Function<Tuple2<T1, T2>, R> function) {
+        return new Iterable<R>() {
+            @Override
+            public Iterator<R> iterator() {
+                return Iterators2.zip(iterable1.iterator(), iterable2.iterator(), function);
+            }
+        };
+    }
+
 }

@@ -84,6 +84,18 @@ public class Iterators2 {
         };
     }
 
+    public static <T1, T2, R> Iterator<R> zip(final Iterator<T1> iterator1, final Iterator<T2> iterator2, final Function<Tuple2<T1, T2>, R> function) {
+        return new AbstractIterator<R>() {
+            @Override
+            protected R computeNext() {
+                if (!(iterator1.hasNext() && iterator2.hasNext())) {
+                    return endOfData();
+                }
+                return function.apply(Tuple2.Tuple2(iterator1.next(), iterator2.next()));
+            }
+        };
+    }
+
     public static <T> Iterator<T> limitWhen(final Iterator<T> iterator, final Predicate<T> predicate) {
         return new AbstractIterator<T>() {
             @Override
@@ -123,4 +135,5 @@ public class Iterators2 {
             }
         };
     }
+
 }

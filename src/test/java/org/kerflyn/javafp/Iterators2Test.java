@@ -120,6 +120,20 @@ public class Iterators2Test {
     }
 
     @Test
+    public void shouldZipBasedOnFunction() {
+        List<Integer> values = Arrays.asList(1, 2, 3);
+        final Function<Tuple2<Integer, Integer>, Integer> ADD = new Function<Tuple2<Integer, Integer>, Integer>() {
+            @Override
+            public Integer apply(Tuple2<Integer, Integer> tuple) {
+                return tuple._0 + tuple._1;
+            }
+        };
+
+        Iterator<Integer> result = Iterators2.zip(values.iterator(), Iterators.cycle(1), ADD);
+        assertThat(result).containsOnly(2, 3, 4);
+    }
+
+    @Test
     public void shouldLimitOnPredicate() {
         List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1);
 

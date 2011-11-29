@@ -2,9 +2,11 @@ package org.kerflyn.javafp;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.limit;
@@ -82,6 +84,20 @@ public class Iterables2Test {
                 Iterables2.allIntegersFrom(1),
                 Iterables.<Integer>cycle(42));
         assertThat(result).containsOnly(Tuple3(2, 1, 42), Tuple3(4, 2, 42), Tuple3(6, 3, 42));
+    }
+
+    @Test
+    public void shouldZipBasedOnFunction() {
+        List<Integer> values = Arrays.asList(1, 2, 3);
+        final Function<Tuple2<Integer, Integer>, Integer> ADD = new Function<Tuple2<Integer, Integer>, Integer>() {
+            @Override
+            public Integer apply(Tuple2<Integer, Integer> tuple) {
+                return tuple._0 + tuple._1;
+            }
+        };
+
+        Iterable<Integer> result = Iterables2.zip(values, Iterables.cycle(1), ADD);
+        assertThat(result).containsOnly(2, 3, 4);
     }
 
 }
