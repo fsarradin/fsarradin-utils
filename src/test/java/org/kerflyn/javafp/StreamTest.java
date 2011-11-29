@@ -48,7 +48,8 @@ public class StreamTest {
                 return new Stream<Integer>(1, new Supplier<Stream<Integer>>() {
                     @Override
                     public Stream<Integer> get() {
-                        return Streams.zip(fibs2(), fibs2().tail(), new Function<Tuple2<Integer, Integer>, Integer>() {
+                        final Stream<Integer> fibStream = fibs2();
+                        return Streams.zip(fibStream, fibStream.tail(), new Function<Tuple2<Integer, Integer>, Integer>() {
                             @Override
                             public Integer apply(Tuple2<Integer, Integer> tuple) {
                                 return tuple._0 + tuple._1;
@@ -63,6 +64,8 @@ public class StreamTest {
     @Test
     public void shouldReturnFibonacciSeries2() {
         assertThat(Iterables.limit(fibs2(), 8)).containsOnly(1, 1, 2, 3, 5, 8, 13, 21);
+        // FIXME: risk of StackOverflowException here
+//        assertThat(Iterables.limit(fibs2(), 29)).isNotEmpty();
     }
 
 }
